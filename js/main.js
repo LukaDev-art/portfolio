@@ -63,6 +63,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Mobile Burger Menu
+    const burgerMenu = document.querySelector('.burger-menu');
+    const navMenu = document.querySelector('.nav-links');
+
+    if (burgerMenu) {
+        burgerMenu.addEventListener('click', () => {
+            burgerMenu.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    }
+
+    // Close menu when a link is clicked
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (burgerMenu && burgerMenu.classList.contains('active')) {
+                burgerMenu.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    });
+
+    // Close menu when clicking outside on the screen
+    document.addEventListener('click', (event) => {
+        if (burgerMenu && burgerMenu.classList.contains('active')) {
+            if (!navMenu.contains(event.target) && !burgerMenu.contains(event.target)) {
+                burgerMenu.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        }
+    });
+
     // 3. Active Link on Scroll & Header Effect
     window.addEventListener('scroll', () => {
         let current = '';

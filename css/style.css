@@ -125,19 +125,19 @@ img { max-width: 100%; display: block; }
 
 /* ===== HEADER (MINIMALIST SLEEK) ===== */
 .header {
-    height: 90px;
+    height: 75px;
     width: 100%;
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
     z-index: 1000;
-    padding: 25px 0;
+    padding: 18px 0;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .header.scrolled {
-    padding: 12px 0;
+    height: 65px;
+    padding: 10px 0;
     background: rgba(10, 15, 26, 0.9);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -159,6 +159,24 @@ img { max-width: 100%; display: block; }
 .footer.active .stagger-item:nth-child(2) { animation-delay: 0.2s; }
 .footer.active .stagger-item:nth-child(3) { animation-delay: 0.3s; }
 .footer.active .stagger-item:nth-child(4) { animation-delay: 0.4s; }
+
+/* Burger Menu */
+.burger-menu {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1001;
+    position: relative;
+}
+
+.burger-menu span {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
 
 .header-container {
     display: flex;
@@ -257,6 +275,10 @@ img { max-width: 100%; display: block; }
     transform: translateY(-2px);
     box-shadow: 0 12px 25px rgba(225, 29, 72, 0.4);
     filter: brightness(1.1);
+}
+
+.mobile-only-btn {
+    display: none;
 }
 
 /* ===== HERO SECTION ===== */
@@ -1127,18 +1149,54 @@ body {
     .section-heading-main { font-size: 2.2rem; }
     
     /* Navbar */
-    .header .container { padding: 0 15px; }
-    .logo-text { font-size: 16px; }
-    .nav-links { gap: 15px; }
-    .nav-links a { font-size: 12px; padding: 6px 10px; }
-    .nav-links i { font-size: 14px; }
-    .btn-nav-contact { display: none; } /* Hide on small tabs/mobile if too crowded */
+    .header { height: 70px; padding: 18px 0; }
+    .header.scrolled { height: 65px; padding: 10px 0; }
+    .header-container { padding: 0 15px; }
+    .logo-text { font-size: 16px; display: block; }
+    .logo { flex-shrink: 0; z-index: 1001; position: relative; }
+    .btn-nav-contact { display: none; }
+    
+    /* Burger Menu Active States */
+    .burger-menu { display: flex; }
+    .burger-menu.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .burger-menu.active span:nth-child(2) { opacity: 0; }
+    .burger-menu.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: rgba(10, 15, 26, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 1000;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        padding: 0;
+        margin: 0;
+    }
+    
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links a { font-size: 16px; padding: 12px 20px; width: 100%; text-align: center; }
+    .nav-links i { font-size: 18px; margin-right: 8px; }
+    
+    .mobile-only-btn { display: flex; width: 100%; justify-content: center; margin-top: 15px; }
+    .btn-nav-contact.mobile-btn { display: inline-flex; width: auto; padding: 12px 35px; box-shadow: 0 10px 25px rgba(225, 29, 72, 0.4); }
 
     /* Hero */
     .hero-grid {
         grid-template-columns: 1fr;
         text-align: center;
         gap: 40px;
+        margin-top: 20px;
     }
     .hero-content { order: 2; }
     .hero-image-wrapper { order: 1; max-width: 280px; margin: 0 auto; }
@@ -1210,7 +1268,6 @@ body {
 }
 
 @media (max-width: 480px) {
-    .logo-text { display: none; } /* Show only small logo on very small screens */
     .logo img { max-height: 25px; }
     
     .hero-title { font-size: 2.2rem; }
@@ -1320,6 +1377,5 @@ body {
 }
 
 @media (max-width: 768px) {
-    .nav-links, .header-actions { display: none; }
     .hero-title { font-size: 40px; }
 }

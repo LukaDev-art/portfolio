@@ -341,30 +341,32 @@
 
                     <!-- Right: Form -->
                     <div class="contact-form-card reveal-anim anim-delay-2">
-                        <form action="https://formspree.io/f/xlgpzqdg" method="POST">
-                            <input type="hidden" name="_next" value="https://lukadev-art.github.io/portfolio/#contact">
+                        <form id="contact-form">
                             <div class="form-group-flex">
                                 <div class="input-field">
                                     <label>Votre Nom</label>
-                                    <input type="text" placeholder="Ex: Modou Diop" required>
+                                    <input type="text" name="name" placeholder="Ex: Modou Diop" required>
                                 </div>
                                 <div class="input-field">
                                     <label>Email</label>
-                                    <input type="email" placeholder="example@email.com" required>
+                                    <input type="email" name="email" placeholder="example@email.com" required>
                                 </div>
                             </div>
                             <div class="input-field">
                                 <label>Objet du projet</label>
-                                <input type="text" placeholder="Ex: Création site E-commerce">
+                                <input type="text" name="subject" placeholder="Ex: Création site E-commerce">
                             </div>
                             <div class="input-field">
                                 <label>Message</label>
-                                <textarea placeholder="Décrivez brièvement vos besoins..." required></textarea>
+                                <textarea name="message" placeholder="Décrivez brièvement vos besoins..." required></textarea>
                             </div>
                             <button type="submit" class="btn-submit-contact">
                                 Envoyer le message <i class="fas fa-paper-plane"></i>
                             </button>
                         </form>
+                        <div id="success-msg" style="display: none; margin-top: 20px; padding: 15px; background: rgba(37, 211, 102, 0.1); border: 1px solid #25D366; border-radius: 8px; color: #25D366; font-weight: 600; text-align: center;">
+                            <i class="fas fa-check-circle"></i> Merci ! Votre message a bien été envoyé.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -435,6 +437,36 @@
     </footer>
 
     <script src="js/main.js?v=1.4"></script>
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = new FormData(form);
+            const successMsg = document.getElementById('success-msg');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = 'Envoi en cours... <i class="fas fa-spinner fa-spin"></i>';
+            
+            fetch("https://formspree.io/f/xlgpzqdg", {
+                method: "POST",
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    successMsg.style.display = "block";
+                    form.reset();
+                    setTimeout(() => successMsg.style.display = "none", 5000);
+                } else {
+                    alert("Une erreur s'est produite lors de l'envoi.");
+                }
+            }).catch(error => {
+                alert("Erreur de connexion. Veuillez réessayer.");
+            }).finally(() => {
+                submitBtn.innerHTML = originalText;
+            });
+        });
+    </script>
 </body>
 
 </html>
